@@ -1,0 +1,23 @@
+{
+  "name": "@zundenova/database",
+  "version": "1.0.0",
+  "description": "Database utilities and schemas for ZundeNova platform",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "clean": "rm -rf dist"
+  },
+  "dependencies": {
+    "prisma": "^5.0.0",
+    "@prisma/client": "^5.0.0",
+    "mongoose": "^8.0.0",
+    "redis": "^4.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "typescript": "^5.0.0"
+  },
+  "private": true
+}
