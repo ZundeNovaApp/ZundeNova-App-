@@ -12,7 +12,8 @@
   "dependencies": {
     "react": "^19.0.0",
     "react-native": "^0.79.6",
-    "tailwindcss": "^4.0.0"
+    "tailwindcss": "^4.0.0",
+    "@zundenova/shared": "workspace:*"
   },
   "devDependencies": {
     "@types/react": "^19.0.0",

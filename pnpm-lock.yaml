@@ -213,6 +213,9 @@ importers:
 
   packages/ui:
     dependencies:
+      '@zundenova/shared':
+        specifier: workspace:*
+        version: link:../shared
       react:
         specifier: ^19.0.0
         version: 19.1.0
