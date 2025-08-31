@@ -11,6 +11,9 @@ import { userRoutes } from './routes/users';
 import { farmRoutes } from './routes/farms';
 import { diagnosticRoutes } from './routes/diagnostics';
 import { marketplaceRoutes } from './routes/marketplace';
+import { chatRoutes } from './routes/chat';
+import { aiRoutes } from './routes/ai';
+import { aiService } from './services/aiService';
 
 dotenv.config();
 
@@ -31,6 +34,8 @@ app.use('/api/users', userRoutes);
 app.use('/api/farms', farmRoutes);
 app.use('/api/diagnostics', diagnosticRoutes);
 app.use('/api/marketplace', marketplaceRoutes);
+app.use('/api/chat', chatRoutes);
+app.use('/api/ai', aiRoutes);
 
 app.get('/health', (req, res) => {
   res.json({ status: 'ok', timestamp: new Date().toISOString() });
@@ -42,10 +47,12 @@ async function startServer() {
   try {
     await connectDatabases();
     await initializeFirebase();
+    await aiService.initialize();
     
     app.listen(PORT, () => {
       console.log(`🌱 ZundeNova API server running on port ${PORT}`);
       console.log(`🔗 Health check: http://localhost:${PORT}/health`);
+      console.log(`🤖 AI services initialized`);
     });
   } catch (error) {
     console.error('Failed to start server:', error);

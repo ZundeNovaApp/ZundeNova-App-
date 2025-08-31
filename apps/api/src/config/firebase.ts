@@ -11,7 +11,8 @@ export async function initializeFirebase() {
         credential: serviceAccount 
           ? admin.credential.cert(serviceAccount)
           : admin.credential.applicationDefault(),
-        projectId: process.env.FIREBASE_PROJECT_ID
+        projectId: process.env.FIREBASE_PROJECT_ID,
+        storageBucket: `${process.env.FIREBASE_PROJECT_ID}.appspot.com`
       });
     }
     console.log('✅ Firebase Admin initialized');

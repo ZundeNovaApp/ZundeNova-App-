@@ -11,8 +11,13 @@
   "dependencies": {
     "expo": "~53.0.22",
     "expo-status-bar": "~2.2.3",
+    "expo-camera": "~16.0.8",
+    "expo-media-library": "~17.0.3",
+    "@tensorflow/tfjs": "^4.15.0",
+    "@tensorflow/tfjs-react-native": "^0.8.0",
     "react": "19.0.0",
-    "react-native": "0.79.6"
+    "react-native": "0.79.6",
+    "react-navigation": "^5.0.0"
   },
   "devDependencies": {
     "@babel/core": "^7.25.2",
