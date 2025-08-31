@@ -67,7 +67,7 @@ export default function AIChat() {
       };
 
       setMessages(prev => [...prev, botMessage]);
-    } catch (error) {
+    } catch {
       const errorMessage: Message = {
         id: (Date.now() + 1).toString(),
         text: 'Sorry, there was an error processing your request.',
