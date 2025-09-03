@@ -12,7 +12,13 @@
     "build": "turbo run build",
     "lint": "turbo run lint",
     "test": "turbo run test",
-    "clean": "turbo run clean"
+    "clean": "turbo run clean",
+    "docker:build": "docker-compose build",
+    "docker:up": "docker-compose up -d",
+    "docker:down": "docker-compose down",
+    "k8s:deploy": "kubectl apply -f k8s/",
+    "mobile:build": "cd apps/mobile && eas build",
+    "mobile:submit": "cd apps/mobile && eas submit"
   },
   "devDependencies": {
     "@types/node": "^20.19.11",

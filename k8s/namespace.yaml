@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: zundenova
+  labels:
+    name: zundenova
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: zundenova-config
+  namespace: zundenova
+data:
+  NODE_ENV: "production"
+  ALLOWED_ORIGINS: "https://zundenova.com"

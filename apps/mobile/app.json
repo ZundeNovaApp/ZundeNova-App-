@@ -4,31 +4,40 @@
     "slug": "zundenova-mobile",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/zundenova-logo.png",
     "userInterfaceStyle": "light",
     "newArchEnabled": true,
     "splash": {
-      "image": "./assets/splash-icon.png",
+      "image": "./assets/zundenova-logo.png",
       "resizeMode": "contain",
-      "backgroundColor": "#228B22"
+      "backgroundColor": "#1F2937"
     },
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.zundenova.mobile"
+      "bundleIdentifier": "com.zundenova.mobile",
+      "buildNumber": "1"
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#228B22"
+        "foregroundImage": "./assets/zundenova-logo.png",
+        "backgroundColor": "#1F2937"
       },
       "edgeToEdgeEnabled": true,
-      "package": "com.zundenova.mobile"
+      "package": "com.zundenova.mobile",
+      "versionCode": 1
     },
     "web": {
-      "favicon": "./assets/favicon.png"
+      "favicon": "./assets/zundenova-logo.png"
     },
     "extra": {
-      "apiUrl": "http://localhost:3001"
-    }
+      "apiUrl": "https://api.zundenova.com",
+      "eas": {
+        "projectId": "your-eas-project-id"
+      }
+    },
+    "plugins": [
+      "expo-camera",
+      "expo-media-library"
+    ]
   }
 }
