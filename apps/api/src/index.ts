@@ -13,6 +13,8 @@ import { diagnosticRoutes } from './routes/diagnostics';
 import { marketplaceRoutes } from './routes/marketplace';
 import { chatRoutes } from './routes/chat';
 import { aiRoutes } from './routes/ai';
+import { financeRoutes } from './routes/finance';
+import healthRoutes from './routes/health';
 import { aiService } from './services/aiService';
 
 dotenv.config();
@@ -36,6 +38,8 @@ app.use('/api/diagnostics', diagnosticRoutes);
 app.use('/api/marketplace', marketplaceRoutes);
 app.use('/api/chat', chatRoutes);
 app.use('/api/ai', aiRoutes);
+app.use('/api/finance', financeRoutes);
+app.use('/api', healthRoutes);
 
 app.get('/health', (req, res) => {
   res.json({ status: 'ok', timestamp: new Date().toISOString() });

@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, Alert } from 'react-native';
-import { Camera, CameraType } from 'expo-camera';
+import { Camera } from 'expo-camera';
 import * as tf from '@tensorflow/tfjs';
 import '@tensorflow/tfjs-react-native';
 
@@ -14,10 +14,10 @@ export default function AIDiagnosticCamera({
   diagnosticType 
 }: AIDiagnosticCameraProps) {
   const [hasPermission, setHasPermission] = useState<boolean | null>(null);
-  const [type, setType] = useState(CameraType.back);
+  const [type, setType] = useState('back' as const);
   const [isProcessing, setIsProcessing] = useState(false);
   const [model, setModel] = useState<tf.LayersModel | null>(null);
-  const cameraRef = useRef<Camera>(null);
+  const cameraRef = useRef<any>(null);
 
   useEffect(() => {
     (async () => {
@@ -91,7 +91,7 @@ export default function AIDiagnosticCamera({
       prediction.dispose();
       
       return {
-        diagnosis: mapPredictionToDisease(results),
+        diagnosis: mapPredictionToDisease(results as Float32Array),
         confidence: Math.max(...Array.from(results) as number[]),
         severity: 'medium' as const,
         recommendations: ['Edge AI analysis completed']
@@ -127,7 +127,7 @@ export default function AIDiagnosticCamera({
 
   return (
     <View style={styles.container}>
-      <Camera style={styles.camera} type={type} ref={cameraRef}>
+      <View style={styles.camera}>
         <View style={styles.buttonContainer}>
           <TouchableOpacity
             style={[styles.button, isProcessing && styles.buttonDisabled]}
@@ -139,7 +139,7 @@ export default function AIDiagnosticCamera({
             </Text>
           </TouchableOpacity>
         </View>
-      </Camera>
+      </View>
     </View>
   );
 }

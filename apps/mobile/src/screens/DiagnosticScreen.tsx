@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Alert } from 'react-native';
 import AIDiagnosticCamera from '../components/AIDiagnosticCamera';
+import MultiModalDiagnostic from '../components/MultiModalDiagnostic';
 
 export default function DiagnosticScreen() {
   const [showCamera, setShowCamera] = useState(false);
+  const [useMultiModal, setUseMultiModal] = useState(false);
   const [diagnosticType, setDiagnosticType] = useState<'crop' | 'livestock' | 'soil'>('crop');
 
   const handleDiagnosisComplete = (result: any) => {
@@ -16,12 +18,21 @@ export default function DiagnosticScreen() {
   };
 
   if (showCamera) {
-    return (
-      <AIDiagnosticCamera
-        onDiagnosisComplete={handleDiagnosisComplete}
-        diagnosticType={diagnosticType}
-      />
-    );
+    if (useMultiModal) {
+      return (
+        <MultiModalDiagnostic
+          onDiagnosisComplete={handleDiagnosisComplete}
+          diagnosticType={diagnosticType}
+        />
+      );
+    } else {
+      return (
+        <AIDiagnosticCamera
+          onDiagnosisComplete={handleDiagnosisComplete}
+          diagnosticType={diagnosticType}
+        />
+      );
+    }
   }
 
   return (
@@ -50,11 +61,29 @@ export default function DiagnosticScreen() {
         <Text style={styles.buttonText}>Soil Analysis</Text>
       </TouchableOpacity>
       
+      <View style={styles.diagnosticModeContainer}>
+        <Text style={styles.modeTitle}>Diagnostic Mode:</Text>
+        <TouchableOpacity
+          style={[styles.modeButton, !useMultiModal && styles.selectedModeButton]}
+          onPress={() => setUseMultiModal(false)}
+        >
+          <Text style={styles.modeButtonText}>Quick Scan</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={[styles.modeButton, useMultiModal && styles.selectedModeButton]}
+          onPress={() => setUseMultiModal(true)}
+        >
+          <Text style={styles.modeButtonText}>Enhanced Multi-Modal</Text>
+        </TouchableOpacity>
+      </View>
+
       <TouchableOpacity
         style={styles.startButton}
         onPress={() => setShowCamera(true)}
       >
-        <Text style={styles.startButtonText}>Start Diagnosis</Text>
+        <Text style={styles.startButtonText}>
+          {useMultiModal ? 'Start Enhanced Diagnosis' : 'Start Quick Diagnosis'}
+        </Text>
       </TouchableOpacity>
     </View>
   );
@@ -108,5 +137,34 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontSize: 18,
     fontWeight: 'bold',
+  },
+  diagnosticModeContainer: {
+    marginTop: 20,
+    marginBottom: 20,
+  },
+  modeTitle: {
+    fontSize: 16,
+    fontWeight: '600',
+    color: '#333',
+    marginBottom: 10,
+    textAlign: 'center',
+  },
+  modeButton: {
+    backgroundColor: '#f0f0f0',
+    padding: 12,
+    borderRadius: 8,
+    marginBottom: 8,
+    borderWidth: 2,
+    borderColor: 'transparent',
+  },
+  selectedModeButton: {
+    backgroundColor: '#e8f5e8',
+    borderColor: '#228B22',
+  },
+  modeButtonText: {
+    textAlign: 'center',
+    fontSize: 14,
+    fontWeight: '600',
+    color: '#333',
   },
 });
