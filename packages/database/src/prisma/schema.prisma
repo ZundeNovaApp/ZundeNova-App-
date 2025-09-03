@@ -1,0 +1,106 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  name      String?
+  role      String   @default("FARMER")
+  phone     String?
+  profileImage String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  farms     Farm[]
+
+  @@index([email])
+}
+
+model Farm {
+  id        String      @id @default(cuid())
+  ownerId   String
+  name      String
+  latitude  Float?
+  longitude Float?
+  address   String?
+  size      Float
+  sizeUnit  String
+  soilType  String?
+  createdAt DateTime    @default(now())
+  updatedAt DateTime    @updatedAt
+  crops     Crop[]
+  livestock Livestock[]
+  financialRecords FinancialRecord[]
+
+  user User @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+
+  @@index([ownerId])
+}
+
+model Crop {
+  id                  String   @id @default(cuid())
+  farmId              String
+  name                String
+  variety             String?
+  plantingDate        DateTime
+  expectedHarvestDate DateTime
+  area                Float
+  status              String
+  notes               String?
+  createdAt           DateTime @default(now())
+  updatedAt           DateTime @updatedAt
+
+  farm Farm @relation(fields: [farmId], references: [id], onDelete: Cascade)
+  financialRecords FinancialRecord[]
+
+  @@index([farmId])
+}
+
+model Livestock {
+  id           String   @id @default(cuid())
+  farmId       String
+  type         String
+  breed        String?
+  count        Int
+  healthStatus String
+  lastCheckup  DateTime?
+  notes        String?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  farm Farm @relation(fields: [farmId], references: [id], onDelete: Cascade)
+  financialRecords FinancialRecord[]
+
+  @@index([farmId])
+}
+
+model FinancialRecord {
+  id            String   @id @default(cuid())
+  farmId        String
+  type          String
+  category      String
+  amount        Decimal  @db.Decimal(10,2)
+  currency      String   @default("USD")
+  date          DateTime @default(now())
+  description   String
+  paymentMethod String?
+  receiptUrl    String?
+  tags          String[]
+  cropId        String?
+  livestockId   String?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  farm      Farm       @relation(fields: [farmId], references: [id], onDelete: Cascade)
+  crop      Crop?      @relation(fields: [cropId], references: [id])
+  livestock Livestock? @relation(fields: [livestockId], references: [id])
+
+  @@index([farmId])
+  @@index([type])
+  @@index([date])
+}
