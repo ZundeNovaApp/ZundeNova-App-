@@ -1,4 +1,6 @@
 
+import Image from 'next/image';
+
 export default function Home() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-green-50 to-yellow-50">
@@ -6,7 +8,7 @@ export default function Home() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center py-4">
             <div className="flex items-center space-x-3">
-              <img src="/zundenova-logo.png" alt="ZundeNova Logo" className="w-10 h-10" />
+              <Image src="/zundenova-logo.png" alt="ZundeNova Logo" width={40} height={40} className="w-10 h-10" />
               <h1 className="text-2xl font-bold text-gray-900">ZundeNova</h1>
             </div>
             <nav className="hidden md:flex space-x-8">
@@ -115,7 +117,7 @@ export default function Home() {
           <div className="grid md:grid-cols-4 gap-8">
             <div>
               <div className="flex items-center space-x-3 mb-4">
-                <img src="/zundenova-logo.png" alt="ZundeNova Logo" className="w-8 h-8" />
+                <Image src="/zundenova-logo.png" alt="ZundeNova Logo" width={32} height={32} className="w-8 h-8" />
                 <span className="text-xl font-bold">ZundeNova</span>
               </div>
               <p className="text-gray-400">
