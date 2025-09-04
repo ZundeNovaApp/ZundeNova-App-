@@ -1,0 +1,26 @@
+{
+  "version": 2,
+  "builds": [
+    {
+      "src": "src/index.ts",
+      "use": "@vercel/node"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "/src/index.ts"
+    }
+  ],
+  "env": {
+    "NODE_ENV": "production",
+    "DATABASE_URL": "@database-url",
+    "MONGODB_URL": "@mongodb-url",
+    "REDIS_URL": "@redis-url",
+    "FIREBASE_PROJECT_ID": "@firebase-project-id",
+    "FIREBASE_SERVICE_ACCOUNT_KEY": "@firebase-service-account-key",
+    "JWT_SECRET": "@jwt-secret",
+    "PORT": "3001",
+    "ALLOWED_ORIGINS": "https://zundenova.vercel.app,https://zundenova-web.vercel.app"
+  }
+}

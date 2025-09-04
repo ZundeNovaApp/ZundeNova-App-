@@ -5,30 +5,44 @@
   "build": {
     "development": {
       "developmentClient": true,
-      "distribution": "internal"
+      "distribution": "internal",
+      "env": {
+        "EXPO_PUBLIC_API_URL": "http://localhost:3001"
+      }
     },
     "preview": {
       "distribution": "internal",
       "android": {
         "buildType": "apk"
+      },
+      "env": {
+        "EXPO_PUBLIC_API_URL": "https://zundenova-api.railway.app"
       }
     },
     "production": {
+      "autoIncrement": true,
+      "env": {
+        "EXPO_PUBLIC_API_URL": "https://zundenova-api.railway.app",
+        "EXPO_PUBLIC_FIREBASE_PROJECT_ID": "zundenova-production"
+      },
       "android": {
         "buildType": "aab"
+      },
+      "ios": {
+        "buildConfiguration": "Release"
       }
     }
   },
   "submit": {
     "production": {
       "android": {
-        "serviceAccountKeyPath": "../secrets/google-play-service-account.json",
+        "serviceAccountKeyPath": "./google-service-account.json",
         "track": "internal"
       },
       "ios": {
-        "appleId": "your-apple-id@example.com",
-        "ascAppId": "1234567890",
-        "appleTeamId": "ABCDEFGHIJ"
+        "appleId": "agritechzundenova@gmail.com",
+        "ascAppId": "placeholder",
+        "appleTeamId": "placeholder"
       }
     }
   }

@@ -10,34 +10,54 @@
     "splash": {
       "image": "./assets/zundenova-logo.png",
       "resizeMode": "contain",
-      "backgroundColor": "#1F2937"
+      "backgroundColor": "#228B22"
     },
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.zundenova.mobile",
-      "buildNumber": "1"
+      "buildNumber": "1",
+      "infoPlist": {
+        "NSCameraUsageDescription": "ZundeNova needs camera access for AI plant and livestock diagnostics",
+        "NSLocationWhenInUseUsageDescription": "ZundeNova needs location access for weather data and farm mapping",
+        "NSMicrophoneUsageDescription": "ZundeNova needs microphone access for voice diagnostics and expert consultations"
+      }
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/zundenova-logo.png",
-        "backgroundColor": "#1F2937"
+        "backgroundColor": "#228B22"
       },
-      "edgeToEdgeEnabled": true,
       "package": "com.zundenova.mobile",
-      "versionCode": 1
+      "versionCode": 1,
+      "permissions": [
+        "CAMERA",
+        "ACCESS_FINE_LOCATION",
+        "ACCESS_COARSE_LOCATION",
+        "RECORD_AUDIO",
+        "WRITE_EXTERNAL_STORAGE",
+        "READ_EXTERNAL_STORAGE"
+      ]
     },
     "web": {
       "favicon": "./assets/zundenova-logo.png"
     },
     "extra": {
-      "apiUrl": "https://api.zundenova.com",
+      "apiUrl": "https://zundenova-api.railway.app",
       "eas": {
-        "projectId": "your-eas-project-id"
+        "projectId": "zundenova-mobile-app"
       }
     },
     "plugins": [
       "expo-camera",
-      "expo-media-library"
+      "expo-location",
+      "@react-native-async-storage/async-storage",
+      [
+        "expo-notifications",
+        {
+          "icon": "./assets/notification-icon.png",
+          "color": "#228B22"
+        }
+      ]
     ]
   }
 }
