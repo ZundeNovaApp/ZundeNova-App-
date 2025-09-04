@@ -20,7 +20,7 @@ import { aiService } from './services/aiService';
 dotenv.config();
 
 const app = express();
-const PORT = process.env.PORT || 3001;
+const PORT = process.env.PORT || 3003;
 
 app.use(helmet());
 app.use(cors({
