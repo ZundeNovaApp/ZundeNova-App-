@@ -125,3 +125,5 @@ ui-debug.log
 *.tfstate
 *.tfstate.*
 .terraform/
+.turbo/
+package-lock.json
