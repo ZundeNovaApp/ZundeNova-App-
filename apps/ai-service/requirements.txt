@@ -1,0 +1,15 @@
+fastapi==0.104.1
+uvicorn[standard]==0.24.0
+onnxruntime==1.19.2
+pillow==10.4.0
+numpy==1.26.4
+python-multipart==0.0.6
+pydantic==2.5.0
+python-jose[cryptography]==3.3.0
+passlib[bcrypt]==1.7.4
+python-dotenv==1.0.0
+aiofiles==23.2.1
+httpx==0.25.2
+scikit-learn==1.5.1
+opencv-python-headless==4.10.0.84
+psutil==5.9.6

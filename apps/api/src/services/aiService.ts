@@ -2,6 +2,7 @@ import * as tf from '@tensorflow/tfjs-node';
 import { pipeline } from '@huggingface/transformers';
 import sharp from 'sharp';
 import { modelLoader } from '../utils/aiModelLoader';
+import { aiProxyService } from './aiProxyService';
 
 export class AIService {
   private plantDiseaseModel: tf.LayersModel | null = null;
@@ -70,6 +71,19 @@ export class AIService {
     recommendations: string[];
   }> {
     try {
+      const imageBase64 = imageBuffer.toString('base64');
+      const fastApiResult = await aiProxyService.diagnoseVision(imageBase64, 'general');
+      
+      const topDisease = fastApiResult.diseases[0];
+      return {
+        diagnosis: topDisease.label,
+        confidence: topDisease.score,
+        severity: this.mapSeverity(fastApiResult.severity),
+        recommendations: this.getRecommendations(topDisease.label, fastApiResult.severity)
+      };
+    } catch (error) {
+      console.warn('FastAPI diagnosis failed, falling back to TensorFlow.js:', error);
+      
       if (!this.plantDiseaseModel) {
         return this.getMockPlantDiagnosis();
       }
@@ -92,9 +106,6 @@ export class AIService {
         severity,
         recommendations: this.getRecommendations(diagnosis, severity)
       };
-    } catch (error) {
-      console.error('Plant disease classification error:', error);
-      return this.getMockPlantDiagnosis();
     }
   }
 
@@ -267,6 +278,15 @@ export class AIService {
       ...selected,
       recommendations: this.getLivestockRecommendations(selected.diagnosis, selected.severity)
     };
+  }
+
+  private mapSeverity(fastApiSeverity: string): 'low' | 'medium' | 'high' | 'critical' {
+    switch (fastApiSeverity) {
+      case 'high': return 'high';
+      case 'medium': return 'medium';
+      case 'low': return 'low';
+      default: return 'medium';
+    }
   }
 
   private getMockChatResponse(message: string, language: string, context: string): string {

@@ -1,0 +1,17 @@
+version: '3.8'
+
+services:
+  ai-service-test:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8001:8000"
+    environment:
+      - PLANT_DISEASE_MODEL_PATH=/app/models/plantdiag.onnx
+      - LIVESTOCK_MODEL_PATH=/app/models/livestock.onnx
+      - PYTHONPATH=/app
+      - LOG_LEVEL=DEBUG
+    volumes:
+      - ./app/models:/app/models
+    command: ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000", "--reload"]

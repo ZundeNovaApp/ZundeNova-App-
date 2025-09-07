@@ -1,6 +1,8 @@
 import { Router, Request, Response } from 'express';
 import { authenticateToken, AuthenticatedRequest } from '../middleware/auth';
+import { uploadSingle } from '../middleware/upload';
 import { aiService } from '../services/aiService';
+import { aiProxyService } from '../services/aiProxyService';
 
 const router: Router = Router();
 
@@ -48,6 +50,71 @@ router.get('/models', async (req: AuthenticatedRequest, res) => {
   } catch (error) {
     console.error('AI models fetch error:', error);
     res.status(500).json({ error: 'Failed to fetch AI models' });
+  }
+});
+
+router.post('/vision/diagnose', uploadSingle, async (req: AuthenticatedRequest, res) => {
+  try {
+    const { cropType, location } = req.body;
+    const file = req.file;
+
+    if (!file) {
+      return res.status(400).json({ error: 'Image file is required' });
+    }
+
+    const imageBase64 = file.buffer.toString('base64');
+    const result = await aiProxyService.diagnoseVision(imageBase64, cropType, location);
+    
+    res.json(result);
+  } catch (error) {
+    console.error('Vision diagnosis error:', error);
+    res.status(500).json({ error: 'Vision diagnosis failed' });
+  }
+});
+
+router.post('/geo/ndvi', async (req: AuthenticatedRequest, res) => {
+  try {
+    const { fieldId, date, bbox } = req.body;
+    
+    if (!fieldId || !date || !bbox) {
+      return res.status(400).json({ error: 'fieldId, date, and bbox are required' });
+    }
+
+    const result = await aiProxyService.getFieldNDVI(fieldId, date, bbox);
+    res.json(result);
+  } catch (error) {
+    console.error('NDVI analysis error:', error);
+    res.status(500).json({ error: 'NDVI analysis failed' });
+  }
+});
+
+router.post('/chat/enhanced', async (req: AuthenticatedRequest, res) => {
+  try {
+    const { text, language = 'en', farmId } = req.body;
+    
+    if (!text) {
+      return res.status(400).json({ error: 'Text is required' });
+    }
+
+    const context = farmId ? { farm_id: farmId } : undefined;
+    const result = await aiProxyService.chatWithAI(text, language, context);
+    
+    res.json(result);
+  } catch (error) {
+    console.error('Enhanced chat error:', error);
+    res.status(500).json({ error: 'Enhanced chat failed' });
+  }
+});
+
+router.get('/health/fastapi', async (req: AuthenticatedRequest, res) => {
+  try {
+    const isHealthy = await aiProxyService.healthCheck();
+    res.json({ 
+      fastapi_healthy: isHealthy,
+      timestamp: new Date().toISOString()
+    });
+  } catch (error) {
+    res.status(500).json({ error: 'Health check failed' });
   }
 });
 

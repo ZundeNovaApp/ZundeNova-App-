@@ -45,23 +45,40 @@ export default function AIChat() {
     setIsLoading(true);
 
     try {
-      const response = await fetch('/api/chat/message', {
+      let response = await fetch('/api/ai/chat/enhanced', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          'Authorization': `Bearer ${localStorage.getItem('authToken')}`,
         },
         body: JSON.stringify({
-          message: inputText,
+          text: inputText,
           language: 'en',
-          context: 'agriculture',
+          farmId: localStorage.getItem('currentFarmId'),
         }),
       });
 
-      const data = await response.json();
+      let data;
+      if (response.ok) {
+        data = await response.json();
+      } else {
+        response = await fetch('/api/chat/message', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            message: inputText,
+            language: 'en',
+            context: 'agriculture',
+          }),
+        });
+        data = await response.json();
+      }
 
       const botMessage: Message = {
         id: (Date.now() + 1).toString(),
-        text: data.response || 'Sorry, I couldn\'t process your request.',
+        text: data.answer || data.response || 'Sorry, I couldn\'t process your request.',
         isUser: false,
         timestamp: new Date(),
       };

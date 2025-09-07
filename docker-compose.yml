@@ -55,6 +55,20 @@ services:
     depends_on:
       - api
 
+  ai-service:
+    build:
+      context: .
+      dockerfile: apps/ai-service/Dockerfile
+    ports:
+      - "8000:8000"
+    environment:
+      - PLANT_DISEASE_MODEL_PATH=/app/models/plantdiag.onnx
+      - PYTHONPATH=/app
+    volumes:
+      - ./apps/ai-service/models:/app/models
+    depends_on:
+      - redis
+
 volumes:
   postgres_data:
   mongodb_data:

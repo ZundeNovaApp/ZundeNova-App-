@@ -82,6 +82,18 @@ class OfflineStorageService {
         synced INTEGER DEFAULT 0
       );
     `);
+
+    await this.db.execAsync(`
+      CREATE TABLE IF NOT EXISTS ai_results (
+        id TEXT PRIMARY KEY,
+        type TEXT NOT NULL,
+        input_data TEXT NOT NULL,
+        result_data TEXT NOT NULL,
+        confidence REAL,
+        timestamp INTEGER,
+        synced INTEGER DEFAULT 0
+      );
+    `);
   }
 
   async storeOfflineData(data: Omit<OfflineData, 'timestamp' | 'synced'>): Promise<void> {
@@ -264,6 +276,61 @@ class OfflineStorageService {
     }
   }
 
+  async storeAIResult(aiData: {
+    id: string;
+    type: 'vision' | 'ndvi' | 'chat';
+    input: any;
+    result: any;
+    confidence: number;
+    timestamp?: number;
+  }): Promise<void> {
+    try {
+      if (!this.db) return;
+
+      await this.db.runAsync(`
+        INSERT OR REPLACE INTO ai_results 
+        (id, type, input_data, result_data, confidence, timestamp, synced)
+        VALUES (?, ?, ?, ?, ?, ?, ?)
+      `, [
+        aiData.id,
+        aiData.type,
+        JSON.stringify(aiData.input),
+        JSON.stringify(aiData.result),
+        aiData.confidence,
+        aiData.timestamp || Date.now(),
+        0
+      ]);
+    } catch (error) {
+      console.error('Failed to store AI result:', error);
+    }
+  }
+
+  async getCachedAIResults(type?: string): Promise<any[]> {
+    try {
+      if (!this.db) return [];
+
+      const query = type 
+        ? 'SELECT * FROM ai_results WHERE type = ? ORDER BY timestamp DESC'
+        : 'SELECT * FROM ai_results ORDER BY timestamp DESC';
+      
+      const params = type ? [type] : [];
+      const result = await this.db.getAllAsync(query, params);
+
+      return result.map((row: any) => ({
+        id: row.id,
+        type: row.type,
+        input: JSON.parse(row.input_data),
+        result: JSON.parse(row.result_data),
+        confidence: row.confidence,
+        timestamp: row.timestamp,
+        synced: Boolean(row.synced)
+      }));
+    } catch (error) {
+      console.error('Failed to get cached AI results:', error);
+      return [];
+    }
+  }
+
   async clearOfflineData(): Promise<void> {
     try {
       if (this.db) {
@@ -271,6 +338,7 @@ class OfflineStorageService {
         await this.db.runAsync('DELETE FROM farm_data');
         await this.db.runAsync('DELETE FROM crop_data');
         await this.db.runAsync('DELETE FROM diagnostic_data');
+        await this.db.runAsync('DELETE FROM ai_results');
       }
       console.log('Offline data cleared');
     } catch (error) {
