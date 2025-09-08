@@ -4,14 +4,15 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
-  --primary-green: #228B22;
-  --primary-gold: #FFD700;
+  --primary-green: #00684b;
+  --primary-teal: #007f82;
+  --primary-gold: #dbc600;
   --primary-white: #FFFFFF;
   
   /* Default ZundeNova Colors for Tenant Theming */
-  --color-primary: #228B22;
-  --color-secondary: #FFD700;
-  --color-accent: #228B22;
+  --color-primary: #00684b;
+  --color-secondary: #007f82;
+  --color-accent: #dbc600;
   --color-background: #FFFFFF;
   --color-surface: #FFFFFF;
   --color-text-primary: #111827;

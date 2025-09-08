@@ -79,14 +79,16 @@ export default function VisionDiagnostics() {
           <div className="flex space-x-3">
             <button
               onClick={() => fileInputRef.current?.click()}
-              className="flex-1 bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700"
+              className="flex-1 text-white px-4 py-2 rounded-lg hover:opacity-90"
+              style={{backgroundColor: '#00684b'}}
             >
               Choose Image
             </button>
             <button
               onClick={analyzeImage}
               disabled={!selectedImage || isAnalyzing}
-              className="flex-1 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 disabled:bg-gray-300"
+              className="flex-1 text-white px-4 py-2 rounded-lg hover:opacity-90 disabled:bg-gray-300"
+              style={{backgroundColor: '#007f82'}}
             >
               {isAnalyzing ? 'Analyzing...' : 'Analyze'}
             </button>
@@ -118,8 +120,11 @@ export default function VisionDiagnostics() {
                     </div>
                     <div className="w-full bg-gray-200 rounded-full h-2 mt-2">
                       <div
-                        className="bg-green-600 h-2 rounded-full"
-                        style={{ width: `${disease.score * 100}%` }}
+                        className="h-2 rounded-full"
+                        style={{ 
+                          width: `${disease.score * 100}%`,
+                          backgroundColor: '#00684b'
+                        }}
                       ></div>
                     </div>
                     {disease.treatment_uri && (

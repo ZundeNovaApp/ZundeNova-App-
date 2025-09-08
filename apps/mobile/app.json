@@ -10,7 +10,7 @@
     "splash": {
       "image": "./assets/zundenova-logo.png",
       "resizeMode": "contain",
-      "backgroundColor": "#228B22"
+      "backgroundColor": "#00684b"
     },
     "ios": {
       "supportsTablet": true,
@@ -25,7 +25,7 @@
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/zundenova-logo.png",
-        "backgroundColor": "#228B22"
+        "backgroundColor": "#00684b"
       },
       "package": "com.zundenova.mobile",
       "versionCode": 1,
@@ -55,7 +55,7 @@
         "expo-notifications",
         {
           "icon": "./assets/notification-icon.png",
-          "color": "#228B22"
+          "color": "#00684b"
         }
       ]
     ]

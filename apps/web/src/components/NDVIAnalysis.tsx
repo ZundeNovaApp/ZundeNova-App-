@@ -86,7 +86,8 @@ export default function NDVIAnalysis() {
           <button
             onClick={handleAnalyzeNDVI}
             disabled={isAnalyzing || !fieldId || !date || !bbox}
-            className="w-full bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 disabled:bg-gray-300"
+            className="w-full text-white px-4 py-2 rounded-lg hover:opacity-90 disabled:bg-gray-300"
+            style={{backgroundColor: '#00684b'}}
           >
             {isAnalyzing ? 'Analyzing...' : 'Analyze Field'}
           </button>

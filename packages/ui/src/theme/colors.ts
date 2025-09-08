@@ -1,14 +1,15 @@
 export const ZundeNovaColors = {
   primary: {
-    green: '#228B22',
-    gold: '#FFD700',
+    green: '#00684b',
+    teal: '#007f82', 
+    gold: '#dbc600',
     white: '#FFFFFF'
   },
   semantic: {
-    success: '#10B981',
-    warning: '#F59E0B',
+    success: '#00684b',
+    warning: '#dbc600',
     error: '#EF4444',
-    info: '#3B82F6'
+    info: '#007f82'
   },
   neutral: {
     50: '#F9FAFB',

@@ -23,8 +23,8 @@ export default function Home() {
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="text-center mb-16">
           <h2 className="text-4xl md:text-6xl font-bold text-gray-900 mb-6">
-            Agricultural AI Platform for
-            <span className="text-green-600"> Africa</span>
+            Smart Care for
+            <span style={{color: '#00684b'}}> Land, Livestock & Life</span>
           </h2>
           <p className="text-xl text-gray-600 mb-8 max-w-3xl mx-auto">
             Mobile-first agricultural support ecosystem providing AI-powered diagnostics, 

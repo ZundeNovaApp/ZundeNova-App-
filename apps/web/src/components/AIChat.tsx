@@ -106,7 +106,7 @@ export default function AIChat() {
 
   return (
     <div className="flex flex-col h-96 bg-white border border-gray-200 rounded-lg shadow-lg">
-      <div className="bg-green-600 text-white p-4 rounded-t-lg">
+      <div className="text-white p-4 rounded-t-lg" style={{backgroundColor: '#00684b'}}>
         <h3 className="text-lg font-semibold">🌱 ZundeNova AI Assistant</h3>
         <p className="text-sm opacity-90">Ask me anything about farming!</p>
       </div>
@@ -120,9 +120,10 @@ export default function AIChat() {
             <div
               className={`max-w-xs lg:max-w-md px-4 py-2 rounded-lg ${
                 message.isUser
-                  ? 'bg-green-600 text-white'
+                  ? 'text-white'
                   : 'bg-gray-100 text-gray-800'
               }`}
+              style={message.isUser ? {backgroundColor: '#00684b'} : {}}
             >
               <p className="text-sm">{message.text}</p>
               <p className="text-xs opacity-70 mt-1">
@@ -155,7 +156,8 @@ export default function AIChat() {
           <button
             onClick={sendMessage}
             disabled={!inputText.trim() || isLoading}
-            className="bg-green-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-green-700 disabled:bg-gray-300 disabled:cursor-not-allowed"
+            className="text-white px-4 py-2 rounded-lg text-sm font-medium hover:opacity-90 disabled:bg-gray-300 disabled:cursor-not-allowed"
+            style={{backgroundColor: '#00684b'}}
           >
             Send
           </button>
