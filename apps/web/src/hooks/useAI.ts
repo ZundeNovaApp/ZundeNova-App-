@@ -41,7 +41,7 @@ export const useAI = () => {
         formData.append('location', JSON.stringify(location));
       }
 
-      const response = await fetch('http://localhost:8001/vision/diagnose', {
+      const response = await fetch('https://zundenova-ai-service-dqlgajxo.fly.dev/vision/diagnose', {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${localStorage.getItem('authToken')}`,
@@ -73,7 +73,7 @@ export const useAI = () => {
     setError(null);
 
     try {
-      const response = await fetch('http://localhost:8001/geo/ndvi', {
+      const response = await fetch('https://zundenova-ai-service-dqlgajxo.fly.dev/geo/ndvi', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -106,7 +106,7 @@ export const useAI = () => {
     setError(null);
 
     try {
-      const response = await fetch('http://localhost:8001/chat/enhanced', {
+      const response = await fetch('https://zundenova-ai-service-dqlgajxo.fly.dev/chat/enhanced', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
