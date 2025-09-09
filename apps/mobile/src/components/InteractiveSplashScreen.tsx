@@ -6,7 +6,7 @@ interface SplashScreenProps {
   userType?: 'farmer' | 'vet' | 'ngo' | 'coop' | 'investor';
 }
 
-export default function InteractiveSplashScreen({ onComplete, userType = 'farmer' }: SplashScreenProps) {
+export default function InteractiveSplashScreen({ onComplete, userType = 'farmer' }: SplashScreenProps): React.ReactElement {
   const [currentStep, setCurrentStep] = useState(0);
   const [fadeAnim] = useState(new Animated.Value(0));
   const [scaleAnim] = useState(new Animated.Value(0.8));
