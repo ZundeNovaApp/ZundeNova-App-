@@ -4,7 +4,7 @@ import { marketPriceService } from '../services/marketPriceService';
 import { logisticsService } from '../services/logisticsService';
 import { blockchainService } from '../services/blockchainService';
 
-const router = express.Router();
+const router: express.Router = express.Router();
 
 router.post('/micro-loans/apply', async (req, res) => {
   try {
