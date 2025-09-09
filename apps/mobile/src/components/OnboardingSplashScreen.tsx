@@ -16,7 +16,7 @@ interface OnboardingSplashScreenProps {
   onComplete: (data: OnboardingData) => void;
 }
 
-export default function OnboardingSplashScreen({ onComplete }: OnboardingSplashScreenProps) {
+export default function OnboardingSplashScreen({ onComplete }: OnboardingSplashScreenProps): React.ReactElement {
   const [currentStep, setCurrentStep] = useState(0);
   const [fadeAnim] = useState(new Animated.Value(0));
   const [slideAnim] = useState(new Animated.Value(50));
