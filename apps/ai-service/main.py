@@ -2,6 +2,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.exceptions import RequestValidationError
 from app.routers import vision, geo, chat
+from app.routers import livestock
 from app.core.config import settings
 from app.core.logging import logger
 from app.middleware.error_handler import global_exception_handler, validation_exception_handler
@@ -25,6 +26,7 @@ app.add_middleware(
 app.include_router(vision.router, prefix="/vision", tags=["vision"])
 app.include_router(geo.router, prefix="/geo", tags=["geo"])
 app.include_router(chat.router, prefix="/chat", tags=["chat"])
+app.include_router(livestock.router, prefix="/livestock", tags=["livestock"])
 
 app.add_exception_handler(Exception, global_exception_handler)
 app.add_exception_handler(RequestValidationError, validation_exception_handler)

@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { TenantProvider } from "@zundenova/ui";
+import Navigation from "../components/Navigation";
+import ErrorBoundary from "../components/ErrorBoundary";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -46,9 +48,12 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <TenantProvider>
-          {children}
-        </TenantProvider>
+        <ErrorBoundary>
+          <TenantProvider>
+            <Navigation />
+            {children}
+          </TenantProvider>
+        </ErrorBoundary>
       </body>
     </html>
   );

@@ -1,6 +1,7 @@
 import { Router, Request, Response } from 'express';
 import { prisma } from '../config/database';
 import { authenticateToken, AuthenticatedRequest, requireRole } from '../middleware/auth';
+import { paymentService } from '../services/paymentService';
 
 const router: Router = Router();
 
@@ -125,6 +126,107 @@ router.post('/orders', async (req: AuthenticatedRequest, res) => {
   } catch (error) {
     console.error('Order creation error:', error);
     res.status(500).json({ error: 'Failed to create order' });
+  }
+});
+
+router.post('/payment/verify', authenticateToken, async (req: AuthenticatedRequest, res) => {
+  try {
+    const { transactionId, paymentMethod, orderId } = req.body;
+
+    if (!transactionId || !paymentMethod || !orderId) {
+      return res.status(400).json({ error: 'Transaction ID, payment method, and order ID are required' });
+    }
+
+    const verificationResult = await paymentService.verifyPayment(transactionId, paymentMethod);
+
+    if (verificationResult.status === 'success' || verificationResult.data?.status === 'success') {
+      const order = await prisma.order.findUnique({
+        where: { id: orderId }
+      });
+      if (order && order.buyerId === req.user!.uid) {
+        await prisma.order.update({
+          where: { id: orderId },
+          data: {
+            paymentStatus: 'PAID',
+            status: 'CONFIRMED'
+          }
+        });
+
+        const updatedOrder = await prisma.order.findUnique({
+          where: { id: orderId }
+        });
+        
+        res.json({
+          success: true,
+          message: 'Payment verified successfully',
+          order: {
+            id: updatedOrder?.id,
+            status: updatedOrder?.status,
+            totalAmount: updatedOrder?.totalAmount
+          }
+        });
+      } else {
+        res.status(404).json({ error: 'Order not found' });
+      }
+    } else {
+      res.status(400).json({
+        success: false,
+        error: 'Payment verification failed'
+      });
+    }
+  } catch (error) {
+    console.error('Payment verification error:', error);
+    res.status(500).json({ error: 'Payment verification failed' });
+  }
+});
+
+router.post('/payment/refund', authenticateToken, async (req: AuthenticatedRequest, res) => {
+  try {
+    const { orderId, reason } = req.body;
+
+    if (!orderId) {
+      return res.status(400).json({ error: 'Order ID is required' });
+    }
+
+    const order = await prisma.order.findUnique({
+      where: { id: orderId }
+    });
+    if (!order || order.buyerId !== req.user!.uid) {
+      return res.status(404).json({ error: 'Order not found' });
+    }
+
+    if (order.paymentStatus !== 'PAID') {
+      return res.status(400).json({ error: 'Only paid orders can be refunded' });
+    }
+
+    const refundResult = await paymentService.refundPayment(
+      order.id,
+      order.totalAmount
+    );
+
+    if (refundResult.success) {
+      await prisma.order.update({
+        where: { id: orderId },
+        data: {
+          status: 'CANCELLED',
+          paymentStatus: 'REFUNDED'
+        }
+      });
+
+      res.json({
+        success: true,
+        message: 'Refund processed successfully',
+        refundId: refundResult.transactionId
+      });
+    } else {
+      res.status(400).json({
+        success: false,
+        error: refundResult.error
+      });
+    }
+  } catch (error) {
+    console.error('Refund processing error:', error);
+    res.status(500).json({ error: 'Refund processing failed' });
   }
 });
 

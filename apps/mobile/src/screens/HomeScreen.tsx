@@ -1,9 +1,11 @@
 import React, { useEffect } from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, ScrollView, Image } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 import { offlineStorageService } from '../services/OfflineStorageService';
 import { syncService } from '../services/SyncService';
 import PhaseADashboard from '../components/PhaseADashboard';
+import PushNotificationService from '../components/PushNotificationService';
 
 export default function HomeScreen() {
   const navigation = useNavigation();
@@ -34,16 +36,22 @@ export default function HomeScreen() {
         <Text style={styles.headerTitle}>ZUNDENOVA</Text>
       </View>
 
-      <PhaseADashboard 
-        farmId="farm1" 
-        onNavigate={(screen) => {
-          if (screen === 'ai-scan') navigation.navigate('AI Scan' as never);
-          else if (screen === 'weather') navigation.navigate('Farm' as never);
-          else if (screen === 'marketplace') navigation.navigate('Market' as never);
-          else if (screen === 'tasks') navigation.navigate('Farm' as never);
-          else if (screen === 'finance') navigation.navigate('Farm' as never);
-        }} 
-      />
+      <ScrollView style={styles.content}>
+        <PhaseADashboard 
+          farmId="farm1" 
+          onNavigate={(screen) => {
+            if (screen === 'ai-scan') navigation.navigate('AI Scan' as never);
+            else if (screen === 'weather') navigation.navigate('Farm' as never);
+            else if (screen === 'marketplace') navigation.navigate('Market' as never);
+            else if (screen === 'tasks') navigation.navigate('Farm' as never);
+            else if (screen === 'finance') navigation.navigate('Farm' as never);
+          }} 
+        />
+
+        <TouchableOpacity 
+          style={styles.aiScanCard}
+          onPress={() => navigation.navigate('AI Scan' as never)}
+        >
           <View style={styles.aiScanIcon}>
             <Text style={styles.aiScanIconText}>🌿</Text>
           </View>

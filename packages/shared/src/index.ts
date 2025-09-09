@@ -10,3 +10,22 @@ export const ZUNDENOVA_COLORS = {
   accent: '#FFD700',
   white: '#FFFFFF'
 } as const;
+
+export * from './utils/validation';
+
+export const LoadingSpinner = ({ size = 'md', color = '#00684b', className = '' }: {
+  size?: 'sm' | 'md' | 'lg';
+  color?: string;
+  className?: string;
+}) => null; // Placeholder for now
+
+export const ErrorMessage = ({ message, onRetry, className = '' }: {
+  message: string;
+  onRetry?: () => void;
+  className?: string;
+}) => null; // Placeholder for now
+
+export const Toast = ({ toast, onClose }: {
+  toast: any;
+  onClose: (id: string) => void;
+}) => null; // Placeholder for now

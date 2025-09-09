@@ -24,19 +24,25 @@ export default function Home() {
         <div className="text-center mb-16">
           <h2 className="text-4xl md:text-6xl font-bold text-gray-900 mb-6">
             Smart Care for
-            <span style={{color: '#00684b'}}> Land, Livestock & Life</span>
+            <span style={{color: '#00684b'}}> Land, Livestock &amp; Life</span>
           </h2>
           <p className="text-xl text-gray-600 mb-8 max-w-3xl mx-auto">
             Mobile-first agricultural support ecosystem providing AI-powered diagnostics, 
             e-commerce marketplace, expert consultations, and comprehensive farm management tools.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <button className="bg-green-600 text-white px-8 py-3 rounded-lg font-semibold hover:bg-green-700 transition-colors">
+            <a 
+              href="/auth/signup"
+              className="bg-green-600 text-white px-8 py-3 rounded-lg font-semibold hover:bg-green-700 transition-colors text-center"
+            >
               Get Started
-            </button>
-            <button className="border-2 border-green-600 text-green-600 px-8 py-3 rounded-lg font-semibold hover:bg-green-600 hover:text-white transition-colors">
-              Learn More
-            </button>
+            </a>
+            <a 
+              href="/dashboard"
+              className="border-2 border-green-600 text-green-600 px-8 py-3 rounded-lg font-semibold hover:bg-green-600 hover:text-white transition-colors text-center"
+            >
+              View Dashboard
+            </a>
           </div>
         </div>
 
