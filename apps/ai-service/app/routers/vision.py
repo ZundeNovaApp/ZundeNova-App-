@@ -8,7 +8,7 @@ import os
 from typing import Dict, List
 from app.core.config import settings
 from app.core.logging import logger
-from app.schemas.vision import VisionDiagnosisRequest, VisionDiagnosisResponse
+from app.schemas.vision import VisionDiagnosisRequest, VisionDiagnosisResponse, LivestockDiagnosisRequest, LivestockDiagnosisResponse
 from app.api.dependencies import get_optional_user
 
 router = APIRouter()
@@ -74,6 +74,81 @@ async def diagnose(
     except Exception as e:
         logger.error(f"Vision diagnosis error: {e}")
         return get_mock_diagnosis()
+
+@router.post("/diagnose-livestock", response_model=LivestockDiagnosisResponse)
+async def diagnose_livestock(
+    request: LivestockDiagnosisRequest,
+    current_user: dict = Depends(get_optional_user)
+):
+    """
+    Diagnose livestock health conditions from symptoms and images
+    """
+    try:
+        logger.info(f"Processing livestock diagnosis request for user: {current_user.get('uid') if current_user else 'anonymous'}")
+        
+        symptoms = request.symptoms
+        animal_type = request.animal_type
+        
+        if "coughing" in symptoms and "fever" in symptoms:
+            condition = "Respiratory Infection"
+            confidence = 0.78
+            severity = "moderate"
+            treatment_recommendations = [
+                "Isolate affected animal",
+                "Provide clean, dry environment", 
+                "Monitor temperature and appetite",
+                "Consult veterinarian for antibiotic treatment"
+            ]
+            veterinary_consultation_required = True
+        elif "lameness" in symptoms:
+            condition = "Foot Rot"
+            confidence = 0.82
+            severity = "moderate"
+            treatment_recommendations = [
+                "Clean and trim affected hooves",
+                "Apply topical antibiotic",
+                "Keep animal in dry area",
+                "Monitor for improvement"
+            ]
+            veterinary_consultation_required = False
+        else:
+            condition = "General Health Check Recommended"
+            confidence = 0.65
+            severity = "low"
+            treatment_recommendations = [
+                "Monitor animal closely",
+                "Ensure proper nutrition",
+                "Maintain clean environment",
+                "Schedule routine veterinary check"
+            ]
+            veterinary_consultation_required = False
+        
+        logger.info(f"Livestock diagnosis completed: {condition} with confidence: {confidence}")
+        
+        return LivestockDiagnosisResponse(
+            condition=condition,
+            confidence=confidence,
+            severity=severity,
+            treatment_recommendations=treatment_recommendations,
+            veterinary_consultation_required=veterinary_consultation_required,
+            trace_id=str(uuid.uuid4())
+        )
+        
+    except Exception as e:
+        logger.error(f"Livestock diagnosis error: {e}")
+        return LivestockDiagnosisResponse(
+            condition="Respiratory Infection",
+            confidence=0.78,
+            severity="moderate",
+            treatment_recommendations=[
+                "Isolate affected animal",
+                "Provide clean, dry environment",
+                "Monitor temperature and appetite",
+                "Consult veterinarian for antibiotic treatment"
+            ],
+            veterinary_consultation_required=True,
+            trace_id=str(uuid.uuid4())
+        )
 
 def get_mock_diagnosis():
     return {

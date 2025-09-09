@@ -25,3 +25,19 @@ class VisionDiagnosisResponse(BaseModel):
     severity: str
     explainability: Explainability
     trace_id: str
+
+class LivestockDiagnosisRequest(BaseModel):
+    symptoms: List[str]
+    image_base64: Optional[str] = None
+    animal_type: str
+    location: Optional[Location] = None
+    device: Optional[str] = None
+    app_version: Optional[str] = None
+
+class LivestockDiagnosisResponse(BaseModel):
+    condition: str
+    confidence: float
+    severity: str
+    treatment_recommendations: List[str]
+    veterinary_consultation_required: bool
+    trace_id: str
