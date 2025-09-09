@@ -19,6 +19,9 @@ import healthRoutes from './routes/health';
 import { aiService } from './services/aiService';
 import { ussdRoutes } from './routes/ussd';
 import enhancedRoutes from './routes/enhanced';
+import { weatherRoutes } from './routes/weather';
+import { livestockRoutes } from './routes/livestock';
+import { communityRoutes } from './routes/community';
 
 dotenv.config();
 
@@ -45,6 +48,9 @@ app.use('/api/finance', financeRoutes);
 app.use('/api', healthRoutes);
 app.use('/api/ussd', ussdRoutes);
 app.use('/api/enhanced', enhancedRoutes);
+app.use('/api/weather', weatherRoutes);
+app.use('/api/livestock', livestockRoutes);
+app.use('/api/community', communityRoutes);
 
 app.get('/health', (req, res) => {
   res.json({ status: 'ok', timestamp: new Date().toISOString() });

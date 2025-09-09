@@ -431,6 +431,10 @@ class PaymentService {
       Math.min(calculatedFee, feeStructure.maximum)
     );
   }
+
+  async refundPayment(orderId: string, amount: number): Promise<any> {
+    return this.processRefund(orderId, amount, 'flutterwave');
+  }
 }
 
 export const paymentService = new PaymentService();
