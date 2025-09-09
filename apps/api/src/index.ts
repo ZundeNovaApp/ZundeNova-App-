@@ -27,7 +27,7 @@ const PORT = process.env.PORT || 3003;
 
 app.use(helmet());
 app.use(cors({
-  origin: process.env.ALLOWED_ORIGINS?.split(',') || ['http://localhost:3000', 'http://localhost:19006'],
+  origin: process.env.ALLOWED_ORIGINS?.split(',') || ['http://localhost:3000', 'http://localhost:3002', 'http://localhost:19006'],
   credentials: true
 }));
 app.use(morgan('combined'));

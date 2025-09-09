@@ -55,7 +55,7 @@ export default function EnhancedFeatures() {
         term: '6 months'
       };
 
-      const response = await fetch('/api/enhanced/micro-loans/apply', {
+      const response = await fetch('http://localhost:3001/api/enhanced/micro-loans/apply', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(application)
@@ -73,7 +73,7 @@ export default function EnhancedFeatures() {
   const testMarketPrices = async () => {
     setLoading(true);
     try {
-      const response = await fetch('/api/enhanced/market-prices/maize/nairobi');
+      const response = await fetch('http://localhost:3001/api/enhanced/market-prices/maize/nairobi');
       const data = await response.json();
       setMarketPrices(data);
     } catch (error) {
@@ -105,7 +105,7 @@ export default function EnhancedFeatures() {
         urgency: 'standard' as const
       };
 
-      const response = await fetch('/api/enhanced/logistics/quote', {
+      const response = await fetch('http://localhost:3001/api/enhanced/logistics/quote', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(deliveryRequest)
@@ -135,7 +135,7 @@ export default function EnhancedFeatures() {
         }
       };
 
-      const response = await fetch('/api/enhanced/blockchain/register-animal', {
+      const response = await fetch('http://localhost:3001/api/enhanced/blockchain/register-animal', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(animalData)

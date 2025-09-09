@@ -299,6 +299,7 @@ export default function MultiModalDiagnosticSystem({
         <CameraView
           style={styles.camera}
           facing="back"
+          ref={cameraRef}
         />
       </View>
       
