@@ -7,6 +7,7 @@ import { connectDatabases } from './config/database';
 import { initializeFirebase } from './config/firebase';
 import { errorHandler } from './middleware/errorHandler';
 import { authRoutes } from './routes/auth';
+import { authLoginRoutes } from './routes/auth-login';
 import { userRoutes } from './routes/users';
 import { farmRoutes } from './routes/farms';
 import { diagnosticRoutes } from './routes/diagnostics';
@@ -16,6 +17,7 @@ import { aiRoutes } from './routes/ai';
 import { financeRoutes } from './routes/finance';
 import healthRoutes from './routes/health';
 import { aiService } from './services/aiService';
+import { ussdRoutes } from './routes/ussd';
 
 dotenv.config();
 
@@ -30,8 +32,8 @@ app.use(cors({
 app.use(morgan('combined'));
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true }));
-
 app.use('/api/auth', authRoutes);
+app.use('/api/auth', authLoginRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/farms', farmRoutes);
 app.use('/api/diagnostics', diagnosticRoutes);
@@ -40,6 +42,7 @@ app.use('/api/chat', chatRoutes);
 app.use('/api/ai', aiRoutes);
 app.use('/api/finance', financeRoutes);
 app.use('/api', healthRoutes);
+app.use('/api/ussd', ussdRoutes);
 
 app.get('/health', (req, res) => {
   res.json({ status: 'ok', timestamp: new Date().toISOString() });
