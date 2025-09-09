@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import { TenantProvider } from "@zundenova/ui";
 import Navigation from "../components/Navigation";
 import ErrorBoundary from "../components/ErrorBoundary";
+import WebSplashManager from "../components/WebSplashManager";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -49,10 +50,12 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <ErrorBoundary>
-          <TenantProvider>
-            <Navigation />
-            {children}
-          </TenantProvider>
+          <WebSplashManager>
+            <TenantProvider>
+              <Navigation />
+              {children}
+            </TenantProvider>
+          </WebSplashManager>
         </ErrorBoundary>
       </body>
     </html>
