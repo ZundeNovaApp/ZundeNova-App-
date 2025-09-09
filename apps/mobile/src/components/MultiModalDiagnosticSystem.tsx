@@ -4,6 +4,8 @@ import { CameraView, useCameraPermissions } from 'expo-camera';
 import { Audio } from 'expo-av';
 import * as Location from 'expo-location';
 import { offlineStorageService } from '../services/OfflineStorageService';
+import { offlineAIService } from '../services/OfflineAIService';
+import { speechToTextService } from '../services/SpeechToTextService';
 
 interface DiagnosticData {
   id: string;
@@ -96,6 +98,7 @@ export default function MultiModalDiagnosticSystem({
         Audio.RecordingOptionsPresets.HIGH_QUALITY
       );
       
+      recordingRef.current = recording;
       setIsRecording(true);
       console.log('Audio recording started');
     } catch (error) {
@@ -107,7 +110,28 @@ export default function MultiModalDiagnosticSystem({
   const stopRecording = async () => {
     try {
       setIsRecording(false);
-      setAudioUri('mock://audio-recording.m4a');
+      
+      if (recordingRef.current) {
+        await recordingRef.current.stopAndUnloadAsync();
+        const uri = recordingRef.current.getURI();
+        
+        if (uri) {
+          setAudioUri(uri);
+          
+          try {
+            const transcription = await speechToTextService.transcribeAudio(uri);
+            if (transcription.text) {
+              updateQuestionnaireData('voiceSymptoms', transcription.text);
+              Alert.alert('Voice Transcribed', `"${transcription.text}"`);
+            }
+          } catch (error) {
+            console.error('Transcription failed:', error);
+          }
+        }
+        
+        recordingRef.current = null;
+      }
+      
       console.log('Audio recording stopped');
     } catch (error) {
       console.error('Failed to stop recording:', error);
@@ -163,12 +187,39 @@ export default function MultiModalDiagnosticSystem({
         timestamp: Date.now(),
       };
 
-      await new Promise(resolve => setTimeout(resolve, 2000));
+      await offlineAIService.initialize();
       
-      let calculatedConfidence = 0.3; // Base confidence
-      if (imageUri) calculatedConfidence += 0.4;
-      if (audioUri) calculatedConfidence += 0.2;
-      if (gpsLocation) calculatedConfidence += 0.1;
+      let aiResult = null;
+      let calculatedConfidence = 0.3;
+      
+      if (diagnosticType === 'crop' && imageUri) {
+        aiResult = await offlineAIService.diagnosePlantOffline(imageUri);
+        if (aiResult) {
+          calculatedConfidence = aiResult.confidence;
+        }
+      } else if (diagnosticType === 'livestock') {
+        const symptoms = [
+          questionnaireData.symptoms,
+          questionnaireData.voiceSymptoms,
+          questionnaireData.behavior
+        ].filter(Boolean);
+        
+        const livestockResult = await offlineAIService.diagnoseLivestockOffline(
+          symptoms, 
+          questionnaireData.animalType || 'cattle'
+        );
+        
+        if (livestockResult) {
+          aiResult = livestockResult;
+          calculatedConfidence = livestockResult.confidence;
+        }
+      }
+      
+      if (!aiResult) {
+        if (imageUri) calculatedConfidence += 0.4;
+        if (audioUri) calculatedConfidence += 0.2;
+        if (gpsLocation) calculatedConfidence += 0.1;
+      }
       
       setConfidence(calculatedConfidence);
       diagnosticData.confidence = calculatedConfidence;

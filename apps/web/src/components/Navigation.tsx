@@ -37,6 +37,8 @@ export default function Navigation() {
     { href: '/consult', label: 'Expert Consult', icon: '👨‍⚕️' },
     { href: '/ngo', label: 'NGO Dashboard', icon: '🏛️' },
     { href: '/coop', label: 'Cooperative', icon: '🤝' },
+    { href: '/analytics/enhanced', label: 'Enhanced Analytics', icon: '📊' },
+    { href: '/offline', label: 'Offline Features', icon: '📱' },
   ];
 
   const handleLogout = () => {

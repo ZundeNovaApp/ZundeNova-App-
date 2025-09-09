@@ -1,5 +1,6 @@
 
 import Image from 'next/image';
+import EnhancedFeatures from '@/components/EnhancedFeatures';
 
 export default function Home() {
   return (
@@ -115,6 +116,10 @@ export default function Home() {
               <p className="text-gray-700 font-medium">Mobile App Coming Soon</p>
             </div>
           </div>
+        </div>
+
+        <div className="mt-12">
+          <EnhancedFeatures />
         </div>
       </main>
 

@@ -1,0 +1,135 @@
+{
+  "name": "ZundeNova Agricultural Assistant",
+  "short_name": "ZundeNova",
+  "description": "AI-powered agricultural platform for African farmers with offline capabilities, diagnostics, marketplace, and community features",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#00684b",
+  "theme_color": "#00684b",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "lang": "en",
+  "categories": ["agriculture", "education", "productivity", "business"],
+  "icons": [
+    {
+      "src": "/icons/icon-72x72.png",
+      "sizes": "72x72",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icons/icon-96x96.png",
+      "sizes": "96x96",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icons/icon-128x128.png",
+      "sizes": "128x128",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icons/icon-144x144.png",
+      "sizes": "144x144",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icons/icon-152x152.png",
+      "sizes": "152x152",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icons/icon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icons/icon-384x384.png",
+      "sizes": "384x384",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icons/icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "/screenshots/desktop-home.png",
+      "sizes": "1280x720",
+      "type": "image/png",
+      "form_factor": "wide",
+      "label": "ZundeNova Dashboard"
+    },
+    {
+      "src": "/screenshots/mobile-diagnostics.png",
+      "sizes": "390x844",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "AI Diagnostics"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "AI Diagnostics",
+      "short_name": "Diagnose",
+      "description": "Quick access to crop and livestock diagnostics",
+      "url": "/diagnostics",
+      "icons": [
+        {
+          "src": "/icons/shortcut-diagnostics.png",
+          "sizes": "96x96"
+        }
+      ]
+    },
+    {
+      "name": "Marketplace",
+      "short_name": "Market",
+      "description": "Browse and purchase agricultural products",
+      "url": "/marketplace",
+      "icons": [
+        {
+          "src": "/icons/shortcut-marketplace.png",
+          "sizes": "96x96"
+        }
+      ]
+    },
+    {
+      "name": "Weather",
+      "short_name": "Weather",
+      "description": "Check weather forecasts and alerts",
+      "url": "/weather",
+      "icons": [
+        {
+          "src": "/icons/shortcut-weather.png",
+          "sizes": "96x96"
+        }
+      ]
+    }
+  ],
+  "related_applications": [
+    {
+      "platform": "play",
+      "url": "https://play.google.com/store/apps/details?id=com.zundenova.app",
+      "id": "com.zundenova.app"
+    },
+    {
+      "platform": "itunes",
+      "url": "https://apps.apple.com/app/zundenova/id123456789"
+    }
+  ],
+  "prefer_related_applications": false,
+  "edge_side_panel": {
+    "preferred_width": 400
+  },
+  "launch_handler": {
+    "client_mode": "navigate-existing"
+  }
+}

@@ -18,6 +18,7 @@ import { financeRoutes } from './routes/finance';
 import healthRoutes from './routes/health';
 import { aiService } from './services/aiService';
 import { ussdRoutes } from './routes/ussd';
+import enhancedRoutes from './routes/enhanced';
 
 dotenv.config();
 
@@ -43,6 +44,7 @@ app.use('/api/ai', aiRoutes);
 app.use('/api/finance', financeRoutes);
 app.use('/api', healthRoutes);
 app.use('/api/ussd', ussdRoutes);
+app.use('/api/enhanced', enhancedRoutes);
 
 app.get('/health', (req, res) => {
   res.json({ status: 'ok', timestamp: new Date().toISOString() });

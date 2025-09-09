@@ -3,7 +3,7 @@ import * as SQLite from 'expo-sqlite';
 
 export interface OfflineData {
   id: string;
-  type: 'farm' | 'diagnostic' | 'marketplace' | 'chat' | 'crop_plan' | 'livestock' | 'financial_record' | 'insurance_policy' | 'financial' | 'credit' | 'weather' | 'notification';
+  type: 'farm' | 'diagnostic' | 'marketplace' | 'chat' | 'crop_plan' | 'livestock' | 'financial_record' | 'insurance_policy' | 'financial' | 'credit' | 'weather' | 'notification' | 'gamification' | 'learning_modules' | 'learning_progress' | 'veterinarians' | 'consultation';
   data: any;
   timestamp: number;
   synced: boolean;
